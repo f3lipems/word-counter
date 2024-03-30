@@ -80,6 +80,17 @@ function splitLines(allContent) {
     return allContent.split('\n')
 }
 
+function groupWords(words) {
+    return Object.values(
+        words.reduce((acc, word) => {
+            const w = word.toLowerCase()
+            const qtt = acc[w] ? acc[w].qtt + 1 : 1
+            acc[word] = { word: w, qtt }
+            return acc
+        }, {})
+    )
+}
+
 module.exports = {
     readFolder,
     fileEndsWith,
@@ -89,5 +100,6 @@ module.exports = {
     removeNumbers,
     removeSymbols,
     joinContent,
-    splitText
+    splitText,
+    groupWords
 }
