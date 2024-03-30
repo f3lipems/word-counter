@@ -64,18 +64,6 @@ function removeSymbols(symbols) {
     }
 }
 
-// function removeSymbols(symbols) {
-//     return function (elements) {
-//         return elements.map(el => {
-//             let text = el
-//             symbols.forEach(symbol => {
-//                 text = text.split(symbol).join('')
-//             })
-//             return text
-//         })
-//     }
-// }
-
 function joinContent(contents) {
     return contents.join(' ')
 }
