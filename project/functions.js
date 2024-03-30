@@ -13,8 +13,10 @@ function readFolder(folderPath) {
     })
 }
 
-function fileEndsWith(files, def) {
-    return files.filter(el => el.endsWith(def))
+function fileEndsWith(def) {
+    return function (files) {
+        return files.filter(el => el.endsWith(def))
+    }
 }
 
 function readContentFile(filePath) {
@@ -39,8 +41,10 @@ function removeEmptSpace(lines) {
     return lines.filter(line => line.trim())
 }
 
-function removeIfFound(lines, textDefault) {
-    return lines.filter(line => !line.includes(textDefault))
+function removeIfFound(textDefault) {
+    return function (lines) {
+        return lines.filter(line => !line.includes(textDefault))
+    }
 }
 
 function removeNumbers(lines) {
