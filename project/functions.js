@@ -4,9 +4,9 @@ const path = require('path')
 function readFolder(folderPath) {
     return new Promise((resolve, reject) => {
         try {
-            let files = fs.readdirSync(folderPath)
-            files = files.map(file => path.join(folderPath, file))
-            resolve(files)
+            const files = fs.readdirSync(folderPath)
+            const fullFiles = files.map(file => path.join(folderPath, file))
+            resolve(fullFiles)
         } catch (error) {
             reject(error)
         }
@@ -57,14 +57,24 @@ function removeNumbers(lines) {
 function removeSymbols(symbols) {
     return function (elements) {
         return elements.map(el => {
-            let text = el
-            symbols.forEach(symbol => {
-                text = text.split(symbol).join()
-            })
-            return text
+            return symbols.reduce((acc, symbol) => {
+                return acc.split(symbol).join('')
+            }, el)
         })
     }
 }
+
+// function removeSymbols(symbols) {
+//     return function (elements) {
+//         return elements.map(el => {
+//             let text = el
+//             symbols.forEach(symbol => {
+//                 text = text.split(symbol).join('')
+//             })
+//             return text
+//         })
+//     }
+// }
 
 function joinContent(contents) {
     return contents.join(' ')
@@ -76,15 +86,11 @@ function splitText(symbol) {
     }
 }
 
-function splitLines(allContent) {
-    return allContent.split('\n')
-}
-
 function groupWords(words) {
     return Object.values(
         words.reduce((acc, word) => {
             const w = word.toLowerCase()
-            const qtt = acc[w] ? acc[w].qtt + 1 : 1
+            const qtt = acc[word] ? acc[word].qtt + 1 : 1
             acc[word] = { word: w, qtt }
             return acc
         }, {})
