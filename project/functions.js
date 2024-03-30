@@ -54,11 +54,25 @@ function removeNumbers(lines) {
     })
 }
 
+function removeSymbols(symbols) {
+    return function (elements) {
+        return elements.map(el => {
+            let text = el
+            symbols.forEach(symbol => {
+                text = text.split(symbol).join()
+            })
+            return text
+        })
+    }
+
+}
+
 module.exports = {
     readFolder,
     fileEndsWith,
     readContentFiles,
     removeEmptSpace,
     removeIfFound,
-    removeNumbers
+    removeNumbers,
+    removeSymbols
 }

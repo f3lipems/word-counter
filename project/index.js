@@ -3,6 +3,10 @@ const fn = require('./functions')
 
 const dataPath = path.join(__dirname, '..', 'data', 'legendas')
 
+const symbols = [
+    '.', '?', '-', ',', '"', '♪', '_', '<i>', '</i>', '\r', '[', ']', '(', ')'
+]
+
 fn.readFolder(dataPath)
     .then(fn.fileEndsWith('.srt'))
     .then(fn.readContentFiles)
@@ -11,4 +15,5 @@ fn.readFolder(dataPath)
     .then(fn.removeEmptSpace)
     .then(fn.removeIfFound('-->'))
     .then(fn.removeNumbers)
+    .then(fn.removeSymbols(symbols))
     .then(console.log)
