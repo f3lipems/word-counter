@@ -64,7 +64,20 @@ function removeSymbols(symbols) {
             return text
         })
     }
+}
 
+function joinContent(contents) {
+    return contents.join(' ')
+}
+
+function splitText(symbol) {
+    return function (allContent) {
+        return allContent.split(symbol)
+    }
+}
+
+function splitLines(allContent) {
+    return allContent.split('\n')
 }
 
 module.exports = {
@@ -74,5 +87,7 @@ module.exports = {
     removeEmptSpace,
     removeIfFound,
     removeNumbers,
-    removeSymbols
+    removeSymbols,
+    joinContent,
+    splitText
 }
