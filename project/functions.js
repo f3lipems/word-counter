@@ -13,6 +13,11 @@ function readFolder(folderPath) {
     })
 }
 
+function fileEndsWith(array, def) {
+    return array.filter(el => el.endsWith(def))
+}
+
 module.exports = {
-    readFolder
+    readFolder,
+    fileEndsWith
 }
