@@ -91,6 +91,14 @@ function groupWords(words) {
     )
 }
 
+function sortByAttr(attr, order = 'asc') {
+    return function (list) {
+        const asc = (el1, el2) => el1[attr] - el2[attr]
+        const desc = (el1, el2) => el2[attr] - el1[attr]
+        return list.sort(order === 'asc' ? asc : desc)
+    }
+}
+
 module.exports = {
     readFolder,
     fileEndsWith,
@@ -101,5 +109,6 @@ module.exports = {
     removeSymbols,
     joinContent,
     splitText,
-    groupWords
+    groupWords,
+    sortByAttr
 }
