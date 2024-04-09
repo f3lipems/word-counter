@@ -38,18 +38,6 @@ function readContentFile() {
     }))
 }
 
-// function readContentFile(filePath) {
-//     return new Promise((resolve, reject) => {
-//         try {
-//             const content = fs.readFileSync(filePath, { encoding: 'utf-8' })
-//             resolve(content.toString())
-//         } catch (error) {
-//             reject(error)
-//         }
-
-//     })
-// }
-
 function readContentFiles(files) {
     return Promise.all(
         files.map(file => readContentFile(file))
@@ -59,10 +47,6 @@ function readContentFiles(files) {
 function removeEmptSpace(lines) {
     return lines.filter(line => line.trim())
 }
-
-// function removeEmptSpace(lines) {
-//     return lines.filter(line => line.trim())
-// }
 
 function removeIfFound(textDefault) {
     return function (lines) {
@@ -92,10 +76,21 @@ function joinContent(contents) {
 }
 
 function splitText(symbol) {
-    return function (allContent) {
-        return allContent.split(symbol)
-    }
+    return createPipeableOperator(subscriber => ({
+        next(content) {
+            content.split(symbol).forEach(el => {
+                subscriber.next(el)
+            })
+            subscriber.complete()
+        }
+    }))
 }
+
+// function splitText(symbol) {
+//     return function (allContent) {
+//         return allContent.split(symbol)
+//     }
+// }
 
 function groupWords(words) {
     return Object.values(

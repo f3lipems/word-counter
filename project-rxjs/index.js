@@ -11,7 +11,8 @@ const symbols = [
 fn.readFolder(dataPath)
     .pipe(
         fn.fileEndsWith('.srt'),
-        fn.readContentFile()
+        fn.readContentFile(),
+        fn.splitText('\n')
     )
     .subscribe(console.log)
 
