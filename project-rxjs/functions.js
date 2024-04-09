@@ -25,17 +25,30 @@ function fileEndsWith(def) {
     }))
 }
 
-function readContentFile(filePath) {
-    return new Promise((resolve, reject) => {
-        try {
-            const content = fs.readFileSync(filePath, { encoding: 'utf-8' })
-            resolve(content.toString())
-        } catch (error) {
-            reject(error)
+function readContentFile() {
+    return createPipeableOperator(subscriber => ({
+        next(filePath) {
+            try {
+                const content = fs.readFileSync(filePath, { encoding: 'utf-8' })
+                subscriber.next(content.toString())
+            } catch (error) {
+                subscriber.error(error)
+            }
         }
-
-    })
+    }))
 }
+
+// function readContentFile(filePath) {
+//     return new Promise((resolve, reject) => {
+//         try {
+//             const content = fs.readFileSync(filePath, { encoding: 'utf-8' })
+//             resolve(content.toString())
+//         } catch (error) {
+//             reject(error)
+//         }
+
+//     })
+// }
 
 function readContentFiles(files) {
     return Promise.all(
@@ -46,6 +59,10 @@ function readContentFiles(files) {
 function removeEmptSpace(lines) {
     return lines.filter(line => line.trim())
 }
+
+// function removeEmptSpace(lines) {
+//     return lines.filter(line => line.trim())
+// }
 
 function removeIfFound(textDefault) {
     return function (lines) {
@@ -116,6 +133,7 @@ module.exports = {
     readFolder,
     fileEndsWith,
     readContentFiles,
+    readContentFile,
     removeEmptSpace,
     removeIfFound,
     removeNumbers,

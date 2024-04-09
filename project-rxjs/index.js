@@ -10,7 +10,8 @@ const symbols = [
 
 fn.readFolder(dataPath)
     .pipe(
-        fn.fileEndsWith('.srt')
+        fn.fileEndsWith('.srt'),
+        fn.readContentFile()
     )
     .subscribe(console.log)
 
