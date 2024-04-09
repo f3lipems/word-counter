@@ -16,9 +16,13 @@ function readFolder(folderPath) {
 }
 
 function fileEndsWith(def) {
-    return function (files) {
-        return files.filter(el => el.endsWith(def))
-    }
+    return createPipeableOperator(subscriber => ({
+        next(text) {
+            if (text.endsWith(def)) {
+                subscriber.next(text)
+            }
+        }
+    }))
 }
 
 function readContentFile(filePath) {
@@ -92,6 +96,19 @@ function sortByAttr(attr, order = 'asc') {
         const asc = (el1, el2) => el1[attr] - el2[attr]
         const desc = (el1, el2) => el2[attr] - el1[attr]
         return list.sort(order === 'asc' ? asc : desc)
+    }
+}
+
+function createPipeableOperator(operatorFn) {
+    return function (source) {
+        return new Observable(subscriber => {
+            const newSub = operatorFn(subscriber)
+            source.subscribe({
+                next: newSub.next,
+                error: newSub.error || (e => subscriber.error(e)),
+                complete: newSub.complete || (e => subscriber.complete(e)),
+            })
+        })
     }
 }
 

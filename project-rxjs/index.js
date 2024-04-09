@@ -1,5 +1,6 @@
 const path = require('path')
 const fn = require('./functions')
+const { map, filter } = require('rxjs/operators')
 
 const dataPath = path.join(__dirname, '..', 'data', 'legendas')
 
@@ -8,6 +9,9 @@ const symbols = [
 ]
 
 fn.readFolder(dataPath)
+    .pipe(
+        fn.fileEndsWith('.srt')
+    )
     .subscribe(console.log)
 
 // fn.readFolder(dataPath)
