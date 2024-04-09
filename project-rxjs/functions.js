@@ -45,7 +45,13 @@ function readContentFiles(files) {
 }
 
 function removeEmptSpace(lines) {
-    return lines.filter(line => line.trim())
+    return createPipeableOperator(subscriber => ({
+        next(text) {
+            if (text.trim()) {
+                subscriber.next(text)
+            }
+        }
+    }))
 }
 
 function removeIfFound(textDefault) {
@@ -86,11 +92,6 @@ function splitText(symbol) {
     }))
 }
 
-// function splitText(symbol) {
-//     return function (allContent) {
-//         return allContent.split(symbol)
-//     }
-// }
 
 function groupWords(words) {
     return Object.values(

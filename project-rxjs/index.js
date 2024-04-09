@@ -12,7 +12,8 @@ fn.readFolder(dataPath)
     .pipe(
         fn.fileEndsWith('.srt'),
         fn.readContentFile(),
-        fn.splitText('\n')
+        fn.splitText('\n'),
+        fn.removeEmptSpace()
     )
     .subscribe(console.log)
 
