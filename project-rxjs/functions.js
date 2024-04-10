@@ -38,12 +38,6 @@ function readContentFile() {
     }))
 }
 
-function readContentFiles(files) {
-    return Promise.all(
-        files.map(file => readContentFile(file))
-    )
-}
-
 function removeEmptSpace(lines) {
     return createPipeableOperator(subscriber => ({
         next(text) {
@@ -65,20 +59,21 @@ function removeNumbers() {
     }))
 }
 
-function removeIfFound(textDefault) {
-    return function (lines) {
-        return lines.filter(line => !line.includes(textDefault))
-    }
+function removeSymbols(symbols) {
+    return createPipeableOperator(subscriber => ({
+        next(text) {
+            const newText = symbols.reduce((acc, symbol) => {
+                return acc.split(symbol).join('')
+            }, text)
+            subscriber.next(newText)
+        }
+    }))
 }
 
 
-function removeSymbols(symbols) {
-    return function (elements) {
-        return elements.map(el => {
-            return symbols.reduce((acc, symbol) => {
-                return acc.split(symbol).join('')
-            }, el)
-        })
+function removeIfFound(textDefault) {
+    return function (lines) {
+        return lines.filter(line => !line.includes(textDefault))
     }
 }
 
@@ -92,7 +87,6 @@ function splitText(symbol) {
             content.split(symbol).forEach(el => {
                 subscriber.next(el)
             })
-            subscriber.complete()
         }
     }))
 }
@@ -133,7 +127,6 @@ function createPipeableOperator(operatorFn) {
 module.exports = {
     readFolder,
     fileEndsWith,
-    readContentFiles,
     readContentFile,
     removeEmptSpace,
     removeIfFound,
