@@ -13,7 +13,8 @@ fn.readFolder(dataPath)
         fn.fileEndsWith('.srt'),
         fn.readContentFile(),
         fn.splitText('\n'),
-        fn.removeEmptSpace()
+        fn.removeEmptSpace(),
+        fn.removeNumbers()
     )
     .subscribe(console.log)
 

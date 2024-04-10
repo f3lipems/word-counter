@@ -54,18 +54,23 @@ function removeEmptSpace(lines) {
     }))
 }
 
+function removeNumbers() {
+    return createPipeableOperator(subscriber => ({
+        next(line) {
+            const num = parseInt(line.trim())
+            if (num !== num) {
+                subscriber.next(line)
+            }
+        }
+    }))
+}
+
 function removeIfFound(textDefault) {
     return function (lines) {
         return lines.filter(line => !line.includes(textDefault))
     }
 }
 
-function removeNumbers(lines) {
-    return lines.filter(line => {
-        const num = parseInt(line.trim())
-        return num !== num
-    })
-}
 
 function removeSymbols(symbols) {
     return function (elements) {
