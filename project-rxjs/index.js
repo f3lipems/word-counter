@@ -19,6 +19,7 @@ fn.readFolder(dataPath)
         fn.splitText(' '),
         fn.removeEmptSpace(),
         fn.removeNumbers(),
+        fn.groupWords()
     )
     .subscribe(console.log)
 
@@ -26,6 +27,5 @@ fn.readFolder(dataPath)
 
 //     .then(fn.joinContent)
 
-//     .then(fn.groupWords)
 //     .then(fn.sortByAttr('qtt', 'desc'))
 //     .then(console.log)

@@ -92,15 +92,20 @@ function splitText(symbol) {
 }
 
 
-function groupWords(words) {
-    return Object.values(
-        words.reduce((acc, word) => {
+function groupWords() {
+    words = {}
+    return createPipeableOperator(subscriber => ({
+        next(word) {
             const w = word.toLowerCase()
-            const qtt = acc[word] ? acc[word].qtt + 1 : 1
-            acc[word] = { word: w, qtt }
-            return acc
-        }, {})
-    )
+            const qtt = words[word] ? words[word].qtt + 1 : 1
+            words[word] = { word: w, qtt }
+        },
+        complete() {
+            Object.values(words).forEach((el) => {
+                subscriber.next(el)
+            })
+        }
+    }))
 }
 
 function sortByAttr(attr, order = 'asc') {
