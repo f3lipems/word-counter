@@ -70,17 +70,6 @@ function removeSymbols(symbols) {
     }))
 }
 
-
-function removeIfFound(textDefault) {
-    return function (lines) {
-        return lines.filter(line => !line.includes(textDefault))
-    }
-}
-
-function joinContent(contents) {
-    return contents.join(' ')
-}
-
 function splitText(symbol) {
     return createPipeableOperator(subscriber => ({
         next(content) {
@@ -132,10 +121,8 @@ module.exports = {
     fileEndsWith,
     readContentFile,
     removeEmptSpace,
-    removeIfFound,
     removeNumbers,
     removeSymbols,
-    joinContent,
     splitText,
     groupWords,
     sortByAttr

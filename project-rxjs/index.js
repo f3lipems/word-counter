@@ -1,6 +1,7 @@
 const path = require('path')
 const fn = require('./functions')
-const { map, filter } = require('rxjs/operators')
+const _ = require('lodash')
+const { map } = require('rxjs/operators')
 
 const dataPath = path.join(__dirname, '..', 'data', 'legendas')
 
@@ -19,13 +20,7 @@ fn.readFolder(dataPath)
         fn.splitText(' '),
         fn.removeEmptSpace(),
         fn.removeNumbers(),
-        fn.groupWords()
+        fn.groupWords(),
+        map(array => _.sortBy(array, el => - el.qtt))
     )
     .subscribe(console.log)
-
-// fn.readFolder(dataPath)
-
-//     .then(fn.joinContent)
-
-//     .then(fn.sortByAttr('qtt', 'desc'))
-//     .then(console.log)
