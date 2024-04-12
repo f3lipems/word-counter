@@ -101,9 +101,7 @@ function groupWords() {
             words[word] = { word: w, qtt }
         },
         complete() {
-            Object.values(words).forEach((el) => {
-                subscriber.next(el)
-            })
+            subscriber.next(Object.values(words))
         }
     }))
 }
